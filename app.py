@@ -44,12 +44,11 @@ def run(graph_input):
     config = {"configurable": {"thread_id": st.session_state.thread_id}}
     try:
         result = graph.invoke(graph_input, config)
-    except Exception:
+    except Exception as e:
         st.session_state.pending = None
         st.session_state.chat.append((
             "assistant",
-            "Sorry, the AI service is not responding or the rate limit was reached. "
-            "Please wait a minute and try again.",
+            f"Debug error: {type(e).__name__}: {e}",
         ))
         return
     if "__interrupt__" in result:
